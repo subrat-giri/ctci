@@ -82,4 +82,12 @@ public class MinimalTree<E> {
             return node.data;
         }
     }
+
+    public static void main(String[] args) {
+        MinimalTree<Integer> bst = new MinimalTree<>(new Integer[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20});
+        Iterator<Integer> itr1 = bst.getInOrderIterator();
+        while (itr1.hasNext()) {
+            System.out.print(itr1.next() + " ");
+        }
+    }
 }

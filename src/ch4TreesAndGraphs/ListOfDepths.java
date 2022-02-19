@@ -64,4 +64,15 @@ public class ListOfDepths<E> {
         }
         return listOfDepths;
     }
+
+    public static void main(String[] args) {
+        ListOfDepths<Integer> tree = new ListOfDepths<>(new Integer[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20});
+        List<List<Integer>> listOfDepths = tree.listOfDepths();
+        for (List<Integer> l : listOfDepths) {
+            for (int i : l) {
+                System.out.print(i + " ");
+            }
+            System.out.println();
+        }
+    }
 }
