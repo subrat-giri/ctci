@@ -44,32 +44,23 @@ public class CheckBalanced<E> {
         return node;
     }
 
-    private static class Result {
-        boolean isBalanced;
-        int height;
-        Result(boolean isBalanced, int height) {
-            this.isBalanced = isBalanced;
-            this.height = height;
-        }
-    }
-
     public boolean isTreeBalanced() {
-        return isTreeBalanced(root).isBalanced;
+        return heightIfTreeBalanced(root) >= 0;
     }
 
-    private Result isTreeBalanced(Node<E> node) {
+    private int heightIfTreeBalanced(Node<E> node) {
         if (node == null) {
-            return new Result(true, 0);
+            return 0;
         }
-        Result leftResult = isTreeBalanced(node.left);
-        Result rightResult = isTreeBalanced(node.right);
-        if (!(leftResult.isBalanced && rightResult.isBalanced)) {
-            return new Result(false, -1);
+        int leftHeight = heightIfTreeBalanced(node.left);
+        int rightHeight = heightIfTreeBalanced(node.right);
+        if (!(leftHeight >= 0 && rightHeight >= 0)) {
+            return -1;
         }
-        if (Math.abs(leftResult.height - rightResult.height) > 1) {
-            return new Result(false, -1);
+        if (Math.abs(leftHeight - rightHeight) > 1) {
+            return -1;
         }
-        return new Result(true, Integer.max(leftResult.height, rightResult.height) + 1);
+        return Integer.max(leftHeight, rightHeight) + 1;
     }
     public List<List<E>> listOfDepths() {
         List<List<E>> listOfDepths = new ArrayList<>();
