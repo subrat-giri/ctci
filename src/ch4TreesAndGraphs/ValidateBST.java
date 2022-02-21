@@ -10,10 +10,46 @@ public class ValidateBST<E extends Comparable<E>> {
             this.data = data;
         }
     }
-    private final Node<E> root;
+    private Node<E> root;
 
-    public ValidateBST(E[] array) {
-        root = createBalancedBinaryTree(array, 0 , array.length);
+    public ValidateBST(E[] array, boolean isBST) {
+        if (isBST) {
+            for (E e : array) {
+                insert(e);
+            }
+        } else {
+            root = createBalancedBinaryTree(array, 0 , array.length);
+        }
+    }
+
+    public boolean insert(E data) {
+        if (data == null) return false;
+        Node<E> node;
+        try {
+            node = new Node<>(data);
+        } catch (OutOfMemoryError e) {
+            return false;
+        }
+        if (root == null) {
+            root = node;
+        } else {
+            Node<E> temp = root;
+            Node<E> parent = null;
+            while (temp != null) {
+                parent = temp;
+                if (temp.data.compareTo(data) >= 0) {
+                    temp = temp.left;
+                } else {
+                    temp = temp.right;
+                }
+            }
+            if (parent.data.compareTo(data) >= 0) {
+                parent.left = node;
+            } else {
+                parent.right = node;
+            }
+        }
+        return true;
     }
 
     private Node<E> createBalancedBinaryTree(E[] array, int start, int end) {
@@ -49,15 +85,15 @@ public class ValidateBST<E extends Comparable<E>> {
     }
 
     public static void main(String[] args) {
-        ValidateBST<Integer> validBST = new ValidateBST<>(new Integer[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20});
+        ValidateBST<Integer> validBST = new ValidateBST<>(new Integer[]{2, 4, 6, 8, 10, 12, 14, 16, 18, 20}, false);
         System.out.println(validBST.isTreeBST());
-        ValidateBST<Integer> invalidBST = new ValidateBST<>(new Integer[]{2, 4, 6, 8, 34, 12, 14, 16, 18, 20});
+        ValidateBST<Integer> invalidBST = new ValidateBST<>(new Integer[]{2, 4, 6, 8, 34, 12, 14, 16, 18, 20}, false);
         System.out.println(invalidBST.isTreeBST());
         ValidateBST<String> stringBST1 = new ValidateBST<>(new String[]{"Subrat",
-                "Anand", "Abhishek", "Manohar", "Rishabh", "Nitish", "Niharika", "Aniket", "Rina", "Suraj", "Abhijeet"});
+                "Anand", "Abhishek", "Manohar", "Rishabh", "Nitish", "Niharika", "Aniket", "Rina", "Suraj", "Abhijeet"}, false);
         System.out.println(stringBST1.isTreeBST());
         ValidateBST<String> stringBST2 = new ValidateBST<>(new String[]{"Abhijeet", "Abhishek",
-                "Anand", "Manohar", "Niharika", "Nitish", "Rina", "Rishabh", "Subrat"});
+                "Anand", "Manohar", "Niharika", "Nitish", "Rina", "Rishabh", "Subrat"}, false);
         System.out.println(stringBST2.isTreeBST());
     }
 }
