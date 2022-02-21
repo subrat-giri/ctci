@@ -59,7 +59,7 @@ public class FirstCommonAncestor<E extends Comparable<E>> {
                 result.found2 = true;
             }
         }
-        //Don't call this method on any node after matching both the value.
+        //Don't call this method recursively on any node after matching both the value.
         if (!bothFound(result)) {
             nodeFoundOnLeft = findCommonAncestor(node.left, node1, node2, result);
         }
